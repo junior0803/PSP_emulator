@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, PpssppActivity!</string>
+    <string name="app_name">PSP Demo</string>
+    <string name="shortcut_name">PSP Demo</string>
+
+	<string name="bad_disc_title">Unsupported disc</string>
+	<string name="bad_disc_message">The file you selected wasn\'t recognized as a game.</string>
+    <string name="missing_data">Missing data</string>
+	<string name="successload">File Loaded Successfully</string>
+	<string name="loding">File Loading …</string>
+	<string name="splash_loading">Loading...</string>
+	<string name="text_no_wifi">Please check your internet connection and try again.</string>
+	<string name="text_btn_no_wifi">Try Again</string>
+	<string name="data_failed">No Data File Found.</string>
+	<string name="allow">Allow</string>
+	<string name="deny">Deny</string>
+	<string name="rationale_ask">Permission Helper</string>
+	<string name="storage_permission_message">Would you set permission?</string>
+</resources>

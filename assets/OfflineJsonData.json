@@ -1,0 +1,38 @@
+{
+  "unity": {
+	"unityGameId": "14851",
+	"unityBannerId": "Banner_Android",
+	"unityInterId": "video",
+	"enable": true
+  },
+  "admob": {
+	"banner": "ca-app-pub-3940256099942544/6300978111",
+	"inter":[
+	  "ca-app-pub-3940256099942544/1033173712",
+	  "ca-app-pub-3940256099942544/1033173712",
+	  "ca-app-pub-3940256099942544/1033173712"
+	],
+	"enable": false
+  },
+  "fan": {
+	"banner": "183991463887240_183994043886982",
+	"inter":[
+	  "183991463887240_183994360553617",
+	  "183991463887240_183996827220037",
+	  "183991463887240_183997233886663"
+	],
+	"enable": false
+  },
+  "ironsource": {
+	"apkKey": "11d126405",
+	"mediationIS": false
+  },
+  "adsInterval": 20,
+  "custom": {
+	"playbutton": "playbutton.png",
+	"background": "background.jpg",
+	"moreapps": "moregamesbutton.png",
+	"privacypolicy": "privacypolicybutton.png",
+	"isogame": "https://gamebat.online/junior2021/roms/BustAMoveDeluxe.zip"
+  }
+}

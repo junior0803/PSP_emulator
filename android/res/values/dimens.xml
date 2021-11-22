@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="dp_12">12.0dip</dimen>
+    <dimen name="dp_2">2.0dip</dimen>
+    <dimen name="dp_24">10.0dip</dimen>
+    <dimen name="dp_280">280.0dip</dimen>
+    <dimen name="dp_360">360.0dip</dimen>
+    <dimen name="dp_4">4.0dip</dimen>
+    <dimen name="dp_40">40.0dip</dimen>
+    <dimen name="dp_64">64.0dip</dimen>
+    <dimen name="dp_8">8.0dip</dimen>
+    <dimen name="dp_80">80.0dip</dimen>
+    <dimen name="fastscroll_default_thickness">8.0dip</dimen>
+    <dimen name="fastscroll_margin">0.0dip</dimen>
+    <dimen name="fastscroll_minimum_range">50.0dip</dimen>
+</resources>

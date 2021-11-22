@@ -1,0 +1,186 @@
+plugins {
+	id 'com.gladed.androidgitversion' version '0.4.5'
+}
+apply plugin: 'com.android.application'
+
+androidGitVersion {
+	codeFormat = "MNNPPBBBB"
+	format = "%tag%%-count%%-branch%%-dirty%"
+	prefix = "v"  // Only tags beginning with v are considered.
+	untrackedIsDirty = false
+}
+
+//Include IronSource maven repositories
+repositories {
+	maven {
+		//IronSource
+		url "https://android-sdk.is.com/"
+	}
+}
+
+dependencies {
+	implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
+	implementation 'com.android.volley:volley:1.2.1'
+	def appcompat_version = "1.2.0"
+
+	implementation "androidx.appcompat:appcompat:$appcompat_version"
+	implementation 'com.ironsource.sdk:mediationsdk:7.1.12.1'
+	// Convenient wrapper around DocumentContract. Might look into writing our own
+	// to see if there's some performance to squeeze at some point, but doubt it.
+	implementation "androidx.documentfile:documentfile:1.0.1"
+	// Add AdMob and Ad Manager Network
+	implementation 'com.google.android.gms:play-services-ads:20.4.0'
+	implementation 'com.google.android.gms:play-services-ads-identifier:17.1.0'
+	implementation 'com.google.android.gms:play-services-base:17.6.0'
+	implementation 'com.ironsource.adapters:admobadapter:4.3.23'
+	// Add Facebook Network
+	implementation 'com.ironsource.adapters:facebookadapter:4.3.32'
+	implementation 'com.facebook.android:audience-network-sdk:6.8.0'
+	// Add UnityAds Network
+	implementation 'com.ironsource.adapters:unityadsadapter:4.3.14'
+	implementation 'com.unity3d.ads:unity-ads:3.7.5'
+	implementation 'com.android.volley:volley:1.2.1'
+}
+
+android {
+	flavorDimensions "variant"
+
+	signingConfigs {
+		debug {
+			storeFile file("debug.keystore")
+		}
+		optimized {
+			storeFile file("debug.keystore")
+		}
+
+		// Set these in a system global (or project local, but not checked in) gradle.properties .
+		if (project.hasProperty("RELEASE_STORE_FILE")) {
+			release {
+				storeFile file(RELEASE_STORE_FILE)
+				storePassword RELEASE_STORE_PASSWORD
+				keyAlias RELEASE_KEY_ALIAS
+				keyPassword RELEASE_KEY_PASSWORD
+			}
+		} else {
+			release {
+			}
+		}
+	}
+	compileSdkVersion 31
+	defaultConfig {
+		applicationId 'com.psp.demo'
+		if (androidGitVersion.name() != "unknown" && androidGitVersion.code() >= 14000000) {
+			// Start using automatic Android version numbers from version 1.4.
+			println "Overriding Android Version Name, Code: " + androidGitVersion.name() + " " + androidGitVersion.code();
+			versionName androidGitVersion.name()
+			versionCode androidGitVersion.code()
+		} else {
+			println "(not using these:) Android Version Name, Code: " + androidGitVersion.name() + " " + androidGitVersion.code();
+		}
+
+		new File("versionname.txt").write(androidGitVersion.name())
+		new File("versioncode.txt").write(androidGitVersion.code().toString())
+
+		minSdkVersion 21
+		targetSdkVersion 31
+		if (project.hasProperty("ANDROID_VERSION_CODE") && project.hasProperty("ANDROID_VERSION_NAME")) {
+			versionCode ANDROID_VERSION_CODE
+			versionName ANDROID_VERSION_NAME
+		}
+		ndk {
+			abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+		}
+		signingConfig signingConfigs.debug
+	}
+	buildTypes {
+		debug {
+			minifyEnabled = false
+			jniDebuggable true
+			signingConfig signingConfigs.debug
+		}
+		optimized {
+			// Debug signed but optimized.
+			minifyEnabled = false
+			jniDebuggable true
+			signingConfig android.buildTypes.debug.signingConfig
+		}
+		release {
+			minifyEnabled = false
+			signingConfig signingConfigs.release
+		}
+	}
+	externalNativeBuild {
+		cmake {
+			path '../CMakeLists.txt'
+		}
+	}
+	sourceSets {
+		main {
+			manifest.srcFile 'AndroidManifest.xml'
+			res.srcDirs = ['res']
+			java.srcDirs = ['src']
+			aidl.srcDirs = ['src']
+			resources.srcDirs = ['src']
+			assets.srcDirs = [
+					'../assets',
+			]
+		}
+		gold {
+			res.srcDirs = ['gold/res']
+		}
+	}
+	productFlavors {
+		normal {
+			applicationId 'com.psp.demo'
+			dimension "variant"
+			externalNativeBuild {
+				cmake {
+					// Available arguments listed at https://developer.android.com/ndk/guides/cmake.html
+					arguments '-DANDROID=true',
+							'-DANDROID_PLATFORM=android-16',
+							'-DANDROID_TOOLCHAIN=clang',
+							'-DANDROID_CPP_FEATURES=',
+							'-DANDROID_STL=c++_static',
+							'-DANDROID_ARM_NEON=TRUE'
+				}
+			}
+		}
+		gold {
+			applicationId 'org.ppsspp.ppssppgold'
+			dimension "variant"
+			externalNativeBuild {
+				cmake {
+					// Available arguments listed at https://developer.android.com/ndk/guides/cmake.html
+					arguments '-DANDROID=true',
+							'-DANDROID_PLATFORM=android-16',
+							'-DANDROID_TOOLCHAIN=clang',
+							'-DANDROID_CPP_FEATURES=',
+							'-DANDROID_STL=c++_static',
+							'-DANDROID_ARM_NEON=TRUE',
+							'-DGOLD=TRUE'
+				}
+			}
+		}
+	}
+	variantFilter { variant ->
+		def needed = variant.name in [
+			'normalDebug',		// for debugging
+			'normalOptimized',	// for testing
+			'normalRelease',	// for Google Play releases
+			'goldRelease'		// for Google Play releases
+		]
+		variant.setIgnore(!needed)
+	}
+}
+afterEvaluate {
+	android.sourceSets.main.assets.getSrcDirs().each { println it }
+}
+
+// F-Droid lite version can be created with : ./gradlew assembleOptimized -Pf_droid
+if (project.hasProperty("f_droid")) {
+	project.android.sourceSets.main.java.srcDirs += 'libs/MogaStubs'
+} else {
+	project.dependencies {
+		implementation files('libs/com.bda.controller.jar')
+	}
+}

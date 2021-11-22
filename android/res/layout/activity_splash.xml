@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/colorPrimary"
+	tools:context=".SplashActivity">
+
+	<ImageView
+		android:id="@+id/logo"
+		android:layout_width="120dp"
+		android:layout_height="120dp"
+		android:layout_centerInParent="true"
+		android:background="@drawable/ic_launcher"/>
+
+	<TextView
+		android:id="@+id/app_name"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/logo"
+		android:layout_marginTop="10dp"
+		android:text="@string/app_name"
+		android:textColor="@color/white"
+		android:textStyle="bold"
+		android:textSize="22dp"
+		android:gravity="center"/>
+
+	<TextView
+		android:id="@+id/text_v"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/app_name"
+		android:layout_marginBottom="5dp"
+		android:text=""
+		android:textColor="@color/white"
+		android:textSize="16dp"
+		android:gravity="center"/>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:gravity="center_horizontal"
+		android:layout_alignParentBottom="true"
+		android:layout_marginBottom="30dp">
+
+		<ProgressBar
+			android:id="@+id/progressBar"
+			style="@style/progressBar"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:max="100"
+			android:minHeight="10dp"
+			android:minWidth="300dp"
+			android:indeterminate="false"
+			android:progressTint="@color/white"
+			android:progressBackgroundTint="@color/grey"
+			android:progress="1" />
+
+
+		<TextView
+			android:id="@+id/loading"
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:layout_marginTop="8dp"
+			android:textColor="@color/white"
+			android:text="@string/splash_loading"
+			android:textSize="16dp" />
+
+
+	</LinearLayout>
+
+	<RelativeLayout
+		android:id="@+id/layout_no_wifi"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:visibility="gone"
+		android:background="@color/grey_20">
+
+		<ImageView
+			android:id="@+id/image"
+			android:layout_width="120dp"
+			android:layout_height="120dp"
+			android:layout_above="@+id/text"
+			android:src="@drawable/ic_wifi"
+			android:layout_centerHorizontal="true"/>
+
+		<TextView
+			android:id="@+id/text"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/text_no_wifi"
+			android:textSize="20dp"
+			android:layout_centerInParent="true"
+			android:textColor="@color/colorPrimaryDark"
+			android:gravity="center"
+			android:layout_margin="10dp"/>
+		<TextView
+			android:id="@+id/btn_try_again"
+			android:layout_width="130dp"
+			android:layout_height="40dp"
+			android:layout_below="@+id/text"
+			android:layout_centerHorizontal="true"
+			android:layout_marginTop="20dp"
+			android:gravity="center"
+			android:text="@string/text_btn_no_wifi"
+			android:textSize="15dp"
+			android:textStyle="bold"
+			android:textColor="@color/white"
+			android:background="@drawable/bg_btn_try_again"/>
+
+	</RelativeLayout>
+
+</RelativeLayout>
